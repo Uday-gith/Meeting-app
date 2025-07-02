@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Meeting App</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #jitsi {
+      height: 80vh;
+      width: 100%;
+    }
+    #controls {
+      margin: 20px;
+    }
+    input {
+      padding: 8px;
+      width: 300px;
+      font-size: 16px;
+    }
+    button {
+      padding: 8px 12px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Video Meeting App</h1>
+  <div id="controls">
+    <input type="text" id="room" placeholder="Enter Room Name"/>
+    <button onclick="startMeeting()">Start Meeting</button>
+  </div>
+  <div id="jitsi"></div>
+
+  <script src="https://meet.jit.si/external_api.js"></script>
+  <script>
+    let api = null;
+    function startMeeting() {
+      const roomName = document.getElementById("room").value;
+      if(api) {
+        api.dispose();
+      }
+      const domain = "meet.jit.si";
+      const options = {
+        roomName: roomName,
+        parentNode: document.querySelector('#jitsi'),
+        configOverwrite: { startWithAudioMuted: true },
+        interfaceConfigOverwrite: { SHOW_JITSI_WATERMARK: false }
+      };
+      api = new JitsiMeetExternalAPI(domain, options);
+    }
+  </script>
+</body>
+</html>
